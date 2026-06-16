@@ -78,11 +78,11 @@ jobs:
       # This is the authoritative AppSec gate. Pinned to a release tag; bump
       # deliberately. ASH auto-installs its own scanners via uv.
       - name: Run ASH security scan
-        run: uvx git+https://github.com/awslabs/automated-security-helper.git@v3.5.3 ash
+        run: uvx --from git+https://github.com/awslabs/automated-security-helper.git@v3.5.3 ash
 
       - name: Print ASH report summary
         if: always()
-        run: uvx git+https://github.com/awslabs/automated-security-helper.git@v3.5.3 ash report
+        run: uvx --from git+https://github.com/awslabs/automated-security-helper.git@v3.5.3 ash report
 
       - name: Upload ASH results
         if: always()
