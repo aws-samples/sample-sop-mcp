@@ -1,0 +1,65 @@
+# sop-lint configuration
+#
+# This file lives at the root of your SOP storage directory. It is read
+# by the `lint_sop` MCP tool AND by `publish_sop` (which runs the same
+# rules and rejects any publish with blocking errors).
+#
+# The defaults below mirror the zero-config behaviour — every built-in
+# rule runs with its default severity. Uncomment and edit fields to
+# tailor the ruleset for your team.
+#
+# Rule families:
+#   SOP0xx — frontmatter (required fields, name format, version type)
+#   SOP1xx — document structure (title, Overview, Steps, sequential numbering)
+#   SOP2xx — per-step content (Objective / Actions / Expected Output / Time Estimate)
+#   SOP3xx — style (RFC 2119 keyword usage, allowed top-level sections)
+
+# ---------------------------------------------------------------------------
+# select: rule families to enable (matched by code prefix, ruff-style).
+# The default "SOP" enables everything built-in.
+#
+# Examples:
+#   select = ["SOP"]              # all built-in rules (default)
+#   select = ["SOP0", "SOP1"]     # frontmatter + document structure only
+#   select = ["SOP", "TODO"]      # built-ins plus a custom "TODO001" rule
+# ---------------------------------------------------------------------------
+select = ["SOP"]
+
+# ---------------------------------------------------------------------------
+# ignore: specific codes or prefixes to skip. Ignore wins over select.
+#
+# Examples:
+#   ignore = ["SOP204"]           # stop warning about missing Time Estimate
+#   ignore = ["SOP3"]             # silence the whole style family
+# ---------------------------------------------------------------------------
+ignore = []
+
+# ---------------------------------------------------------------------------
+# Custom pattern rules — regex-based checks your team wants to add.
+# Each [[pattern-rules]] block declares one rule. The regex is standard
+# Python re syntax; wrap special chars accordingly (note the \\ doubling
+# for TOML string escapes).
+#
+# Fields:
+#   code        — unique identifier, shown in lint output
+#   severity    — "error" | "warning" | "info" (default: "warning")
+#   pattern     — Python regex; matches anywhere in the target text
+#   message     — human-readable explanation shown to the author
+#   applies_to  — "body" | "frontmatter" | "any" (default: "body")
+#
+# Example (commented out by default):
+# ---------------------------------------------------------------------------
+
+# [[pattern-rules]]
+# code = "TODO001"
+# severity = "warning"
+# pattern = "\\bTODO\\b"
+# message = "SOPs shouldn't contain TODOs — finish the thought before publishing."
+# applies_to = "any"
+
+# [[pattern-rules]]
+# code = "FIXME001"
+# severity = "error"
+# pattern = "\\bFIXME\\b"
+# message = "FIXME markers block publish. Resolve before shipping."
+# applies_to = "body"

@@ -1,0 +1,60 @@
+# SOP-MCP
+
+An MCP server that guides AI agents through Standard Operating Procedures (SOPs) one step at a time.
+
+## Tools
+
+- **lint_sop**: Validate a draft SOP against the sop-mcp format rules WITHOUT writing it.
+- **publish_sop**: Publish a new or updated Standard Operating Procedure document.
+- **run_sop**: Start or advance a Standard Operating Procedure step by step. Use list_resources to discover available SOPs, then call this tool with the SOP name.
+- **submit_sop_feedback**: Submit improvement feedback for a specific SOP.
+
+## Resources
+
+- `sop://code_review_process`: Standard process for conducting code reviews to keep code quality, consistency, and knowledge sharing across the team.
+
+## Parameters
+
+- **code_review_id** (required): The identifier of the code review being prepared, reviewed, or merged.
+- **reviewer** (optional): Slack handle or email of the assigned reviewer. Defaults to the team's on-call reviewer.
+- `sop://employee_onboarding_setup`: Onboarding a new employee: obtain details from HR, register an alias in IT, send an alias selection email, and send a hardware selection list.
+
+## Parameters
+
+- **employee_name** (optional): Full name of the new hire, if already known. Otherwise obtained from HR in Step 1.
+- **hr_partner** (optional): Alias or email of the assigned HR partner. Defaults to the HR department on-call.
+- `sop://sop_creation_guide`: An interactive, guided walkthrough that helps a human author a lint-clean Agent SOP step by step — gathering details, drafting, linting, reviewing, and publishing via publish_sop.
+
+## Parameters
+
+- **process_name** (required): Short descriptive name of the process the SOP will describe. Used to derive the SOP's `name` frontmatter field.
+- **process_owner** (required): Team or alias that owns the process. Populates the `owner` frontmatter field.
+- **interaction_mode** (optional, default: guided): How much to pause for the author. `guided` confirms after every step; `express` batches questions and confirms less often.
+- `sop://user_onboarding_process`: Standard process for onboarding new users to the organization's systems and tools with consistent access provisioning.
+
+## Parameters
+
+- **user_name** (required): The full name of the new user being onboarded.
+- **role** (required): The user's role, used to resolve the role-based access matrix.
+
+## Usage
+
+1. Call `list_resources` to discover available SOPs
+2. Call `run_sop(sop_name="...")` to start executing an SOP
+3. Execute each step, then call `run_sop(current_step=N, step_output="...")` to advance
+4. Use `publish_sop` to create new SOPs
+5. Use `submit_sop_feedback` to record improvement suggestions
+
+## Configuration
+
+```json
+{
+  "mcpServers": {
+    "sop-mcp": {
+      "command": "uvx",
+      "args": ["--from", "git+https://github.com/aws-samples/sample-sop-mcp", "sop-mcp"],
+      "env": { "SOP_STORAGE_DIR": "/path/to/sops" }
+    }
+  }
+}
+```

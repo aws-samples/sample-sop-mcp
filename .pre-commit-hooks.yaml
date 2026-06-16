@@ -1,0 +1,19 @@
+# Reusable pre-commit hook definitions exported by this repository.
+#
+# Other repositories can lint their own SOP markdown files by adding this
+# repo to their .pre-commit-config.yaml:
+#
+#   - repo: https://github.com/aws-samples/sample-sop-mcp
+#     rev: <tag-or-sha>
+#     hooks:
+#       - id: sop-lint
+#
+# pre-commit installs the `sop-lint` console script (from this package's
+# [project.scripts]) into an isolated environment and runs it against every
+# staged *.sop.md file.
+- id: sop-lint
+  name: sop-lint (lint SOP markdown)
+  description: Lint Agent SOP markdown files using the SOP lint engine.
+  entry: sop-lint
+  language: python
+  files: \.sop\.md$

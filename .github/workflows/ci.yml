@@ -1,0 +1,93 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+# Least-privilege default token: CI only checks out the repo and uploads
+# artifacts. Set explicitly so the workflow doesn't inherit write-all.
+permissions:
+  contents: read
+
+# Cancel superseded runs on the same ref to avoid duplicate work (e.g. a
+# branch push and its pull_request triggering the workflow twice).
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: lint + hygiene (pre-commit)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86  # v5
+        with:
+          python-version: "3.13"
+
+      # Needed because the sop-lint and regen-docs hooks are `language: system`
+      # and shell out to `uv run`, so the project env must exist first.
+      - name: Install dependencies
+        run: uv sync
+
+      # Single source of truth: every lint/format/hygiene/doc check is defined
+      # in .pre-commit-config.yaml. CI runs the exact same hooks developers run
+      # locally — fixers run in check mode here (pre-commit exits non-zero if a
+      # hook would modify a file), so a bypassed local hook is still caught.
+      - name: Run pre-commit
+        run: uv run pre-commit run --all-files --show-diff-on-failure
+
+  test:
+    name: test (py${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86  # v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Test (pytest)
+        run: uv run pytest
+
+  security:
+    name: security scan (ASH)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86  # v5
+
+      # AWS Automated Security Helper — aggregate SAST, secrets, dependency-CVE,
+      # and IaC scanning (bandit, semgrep, detect-secrets, grype, checkov, ...).
+      # This is the authoritative AppSec gate. Pinned to a release tag; bump
+      # deliberately. ASH auto-installs its own scanners via uv.
+      - name: Run ASH security scan
+        run: uvx --from git+https://github.com/awslabs/automated-security-helper.git@v3.5.3 ash
+
+      - name: Print ASH report summary
+        if: always()
+        run: uvx --from git+https://github.com/awslabs/automated-security-helper.git@v3.5.3 ash report
+
+      - name: Upload ASH results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4
+        with:
+          name: ash-results
+          path: .ash/
+          if-no-files-found: ignore
