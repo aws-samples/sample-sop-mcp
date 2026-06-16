@@ -1,0 +1,138 @@
+[project]
+name = "sample-sop-mcp"
+version = "0.1.0"
+description = "An MCP server for guiding users through Standard Operating Procedures"
+readme = "README.md"
+license = { text = "MIT-0" }
+requires-python = ">=3.11"
+keywords = ["mcp", "sop", "standard-operating-procedure", "ai-agent"]
+authors = [
+    { name = "Amazon Web Services" },
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "pyyaml>=6.0.0",
+    "pydantic>=2.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/aws-samples/sample-sop-mcp"
+Repository = "https://github.com/aws-samples/sample-sop-mcp"
+Issues = "https://github.com/aws-samples/sample-sop-mcp/issues"
+
+[dependency-groups]
+dev = [
+    "fastmcp>=2.0.0",
+    "hypothesis>=6.0.0,<6.156.0",
+    "mcp>=1.0.0",
+    "pre-commit>=3.0.0",
+    "pytest>=8.0.0",
+    "pytest-asyncio>=1.0.0",
+    "pyyaml>=6.0.3",
+    "ruff>=0.8.0",
+    "tox>=4.0.0",
+    "tox-uv>=1.0.0",
+]
+
+[project.scripts]
+sop-mcp = "sop_mcp.server:run"
+sop-lint = "sop_lint.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "-v"
+asyncio_mode = "auto"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sop_mcp", "src/sop_lint"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+src = ["src"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.ruff.lint]
+select = [
+    # --- Core Safety (catch real bugs) ---
+    "E",      # pycodestyle errors (syntax issues, indentation)
+    "F",      # Pyflakes (unused imports, undefined names, redefined variables)
+    "W",      # pycodestyle warnings
+    # --- AI-Friendly Readability ---
+    "I",      # isort (consistent import ordering)
+    "UP",     # pyupgrade (modernize syntax to latest Python idioms)
+    "SIM",    # flake8-simplify (simplify complex expressions)
+    "C4",     # flake8-comprehensions (prefer comprehensions over verbose loops)
+    "RET",    # flake8-return (clean return statements)
+    # --- Bug Prevention ---
+    "B",      # flake8-bugbear (common bug patterns and design problems)
+    "PIE",    # flake8-pie (misc. lints for cleaner code)
+    "T20",    # flake8-print (catch leftover print statements)
+    "T10",    # flake8-debugger (catch leftover breakpoint()/pdb.set_trace())
+    "RUF",    # Ruff-specific rules
+    # --- Security Basics ---
+    "S",      # flake8-bandit (basic security checks)
+    # --- Type Hints (great for AI context) ---
+    "ANN",    # flake8-annotations (encourage type annotations)
+    # --- Code Complexity & Modernization ---
+    "FURB",   # refurb (suggest modern alternatives)
+    "PLR",    # Pylint Refactor (detect overly complex functions)
+    "C90",    # McCabe Complexity (enforce max complexity)
+]
+ignore = [
+    "ANN401",  # Dynamically typed expressions (Any)
+    "S101",    # Use of `assert` — fine in prototypes and tests
+    "E501",    # Line too long — let the formatter handle this
+    "T201",    # Print found — toggle off during prototyping, on for production
+    "PLR2004", # Magic value comparisons — too noisy for pragmatic code
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101", "S108", "ANN", "T20", "S603", "B017", "RUF001", "PLR2004", "PLR0915", "PLR0913"]
+"scripts/**/*.py" = ["T20", "ANN"]
+"src/sop_mcp/utils/sop_parser.py" = ["RUF001"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["sop_mcp"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 12
+
+[tool.ruff.lint.pylint]
+max-args = 6
+max-returns = 6
+max-branches = 12
+max-statements = 40
+
+[tool.tox]
+env_list = ["py311", "py312", "py313", "lint"]
+
+[tool.tox.env_run_base]
+description = "Run tests"
+group = "dev"
+commands = [["pytest", "{posargs}"]]
+
+[tool.tox.env.lint]
+description = "Run linters"
+group = "dev"
+commands = [
+    ["ruff", "check", "src/sop_mcp/", "src/sop_lint/", "tests/"],
+    ["ruff", "format", "--check", "src/sop_mcp/", "src/sop_lint/", "tests/"],
+]

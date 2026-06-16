@@ -1,0 +1,64 @@
+# Pre-commit hooks for this repository.
+#
+# Install once with:  uv run pre-commit install
+# Run on demand with: uv run pre-commit run --all-files
+#
+# Fast, local checks only — everything here runs in well under a second so it
+# never gets in the way of a commit. The heavier security review (AWS
+# Automated Security Helper) runs in CI, not here, because it's the
+# authoritative AppSec gate and a local hook is skippable with --no-verify.
+#
+# Hooks:
+#   1. standard hygiene + credential/secret guards (pre-commit-hooks) — covers
+#      the non-Python files (YAML/TOML/JSON, markdown SOPs, llms.txt) that ruff
+#      never looks at, plus the earliest possible secret guard.
+#   2. ruff-check    — lint the Python sources (src/ + tests/); also handles
+#      Python SAST (bandit `S` rules) and debugger statements (`T10`).
+#   3. ruff-format   — enforce formatting on the same sources.
+#   4. sop-lint      — run the SOP linter on any staged *.sop.md files.
+#   5. regen-docs    — regenerate docs/mcp-reference.md + llms.txt whenever the
+#      server package or doc generator changes, so the docs can't drift.
+#
+# Note: every hook is pure-Python or Python-toolchain based — no Go-based
+# scanners (e.g. gitleaks).
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-json
+      - id: check-toml
+      - id: check-yaml
+      - id: detect-aws-credentials
+        args: [--allow-missing-credentials]
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: forbid-new-submodules
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.15
+    hooks:
+      - id: ruff-check
+        args: [--fix, --exit-non-zero-on-fix]
+        files: ^(src|tests)/.*\.py$
+      - id: ruff-format
+        files: ^(src|tests)/.*\.py$
+
+  - repo: local
+    hooks:
+      - id: sop-lint
+        name: sop-lint (lint SOP markdown)
+        entry: uv run sop-lint
+        language: system
+        files: \.sop\.md$
+
+      - id: regen-docs
+        name: regenerate machine docs (mcp-reference.md + llms.txt)
+        entry: uv run python scripts/generate_docs.py
+        language: system
+        pass_filenames: false
+        files: (^src/sop_mcp/.*\.py$|^scripts/generate_docs\.py$)
