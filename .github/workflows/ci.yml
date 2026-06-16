@@ -2,14 +2,19 @@ name: CI
 
 on:
   push:
-    branches: [main]
   pull_request:
-    branches: [main]
+  workflow_dispatch:
 
 # Least-privilege default token: CI only checks out the repo and uploads
 # artifacts. Set explicitly so the workflow doesn't inherit write-all.
 permissions:
   contents: read
+
+# Cancel superseded runs on the same ref to avoid duplicate work (e.g. a
+# branch push and its pull_request triggering the workflow twice).
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   lint:
