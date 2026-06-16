@@ -69,9 +69,6 @@ jobs:
     # The security scan is the authoritative AppSec gate — only run it on pull
     # requests, not on every branch push (lint + test still run everywhere).
     if: github.event_name == 'pull_request'
-    permissions:
-      contents: read
-      security-events: write  # required to upload SARIF to GitHub code scanning
     steps:
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
@@ -96,17 +93,9 @@ jobs:
             echo "No ASH summary report was generated." >> "$GITHUB_STEP_SUMMARY"
           fi
 
-      # Upload findings to GitHub code scanning so they show up in the Security
-      # tab and as inline annotations on the pull request. Non-blocking: if code
-      # scanning isn't enabled on the repo, the scan result above still gates.
-      - name: Upload ASH SARIF to code scanning
-        if: always()
-        continue-on-error: true
-        uses: github/codeql-action/upload-sarif@dd903d2e4f5405488e5ef1422510ee31c8b32357  # v3.36.2
-        with:
-          sarif_file: .ash/ash_output/reports/ash.sarif
-          category: ash
-
+      # Full reports (SARIF, HTML, JSON) are uploaded as a downloadable artifact.
+      # Note: pushing findings to GitHub code scanning is intentionally omitted —
+      # the org-level GITHUB_TOKEN can't be granted security-events:write here.
       - name: Upload ASH results
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4
