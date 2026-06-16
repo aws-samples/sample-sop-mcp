@@ -66,6 +66,12 @@ jobs:
   security:
     name: security scan (ASH)
     runs-on: ubuntu-latest
+    # The security scan is the authoritative AppSec gate — only run it on pull
+    # requests, not on every branch push (lint + test still run everywhere).
+    if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
+      security-events: write  # required to upload SARIF to GitHub code scanning
     steps:
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
@@ -80,9 +86,26 @@ jobs:
       - name: Run ASH security scan
         run: uvx --from git+https://github.com/awslabs/automated-security-helper.git@v3.5.3 ash
 
-      - name: Print ASH report summary
+      # Surface the human-readable summary directly on the workflow run page.
+      - name: Publish ASH summary to job summary
         if: always()
-        run: uvx --from git+https://github.com/awslabs/automated-security-helper.git@v3.5.3 ash report
+        run: |
+          if [ -f .ash/ash_output/reports/ash.summary.md ]; then
+            cat .ash/ash_output/reports/ash.summary.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "No ASH summary report was generated." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      # Upload findings to GitHub code scanning so they show up in the Security
+      # tab and as inline annotations on the pull request. Non-blocking: if code
+      # scanning isn't enabled on the repo, the scan result above still gates.
+      - name: Upload ASH SARIF to code scanning
+        if: always()
+        continue-on-error: true
+        uses: github/codeql-action/upload-sarif@dd903d2e4f5405488e5ef1422510ee31c8b32357  # v3.36.2
+        with:
+          sarif_file: .ash/ash_output/reports/ash.sarif
+          category: ash
 
       - name: Upload ASH results
         if: always()
