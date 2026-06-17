@@ -6,6 +6,10 @@
 
 An MCP server that hands a procedure to your AI assistant one step at a time and asks it to produce concrete output before moving on. You talk to your agent in plain language — Kiro, Cursor, Claude Desktop, a Strands agent, or any MCP client — and it calls the SOP tools for you under the hood.
 
+<p align="center">
+  <img src="docs/banner.svg" alt="sop-mcp" width="100%">
+</p>
+
 ## ✨ Features
 
 - **🗣️ Plain-language driven** — Ask your agent to run or author an SOP; you never call tools by hand
