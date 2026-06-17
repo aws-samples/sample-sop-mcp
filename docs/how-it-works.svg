@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1000 540" width="1000" height="540" xmlns="http://www.w3.org/2000/svg">
+<style>
+  text { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+
+  /* lifelines + headers */
+  .ll { stroke: #cbd5e1; stroke-width: 1.5; stroke-dasharray: 4 5; }
+  .hdr { fill: #1a1a2e; }
+  .hdr-txt { fill: #ffffff; font-size: 14px; font-weight: 700; }
+  .ico { fill: none; stroke: #ffffff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .ico-dot { fill: #ffffff; stroke: none; }
+
+  /* one base for every message line; modifiers only set color/dashes */
+  .line { fill: none; stroke-width: 2; animation: dash 0.85s linear infinite; }
+  .line.call  { stroke: #1a1a2e; stroke-dasharray: 5 6; }
+  .line.ret   { stroke: #6b7280; stroke-dasharray: 6 6; }
+  .line.callo { stroke: #FF9900; stroke-width: 2.5; stroke-dasharray: 6 6; }
+  .line.hitl  { stroke: #FF9900; stroke-dasharray: 4 5; opacity: 0.9; }
+  @keyframes dash { to { stroke-dashoffset: -11; } }
+
+  /* one base for every message label; modifiers only set color/weight */
+  .lbl  { font-size: 13px; text-anchor: middle; }
+  .lbl.call { fill: #1a1a2e; }
+  .lbl.ret  { fill: #6b7280; }
+  .lbl.callo { fill: #b45309; font-weight: 600; }
+
+  .note  { fill: #fff7ed; stroke: #FF9900; stroke-width: 1; }
+  .note-txt { font-size: 11px; fill: #b45309; font-weight: 600; text-anchor: middle; }
+
+  /* optional (opt) fragment */
+  .opt-frame { fill: none; stroke: #cbd5e1; stroke-width: 1.2; stroke-dasharray: 4 4; }
+  .opt-tab { fill: #f1f5f9; }
+  .opt-tab-txt { font-size: 10px; font-weight: 700; fill: #6b7280; letter-spacing: 1px; }
+
+  /* sequential reveal then hold ~10s, then reload — shared 19s timing,
+     each message only picks its own keyframe via animation-name */
+  .msg { opacity: 0; animation-duration: 19s; animation-timing-function: linear; animation-iteration-count: infinite; }
+  .m1 { animation-name: m1 } .m2 { animation-name: m2 } .m3 { animation-name: m3 }
+  .m4 { animation-name: m4 } .m5 { animation-name: m5 } .m6 { animation-name: m6 }
+  .m7 { animation-name: m7 } .m8 { animation-name: m8 } .m9 { animation-name: m9 }
+  @keyframes m1 {0%,1%{opacity:0} 3%,98%{opacity:1} 100%{opacity:0}}
+  @keyframes m2 {0%,6%{opacity:0} 8%,98%{opacity:1} 100%{opacity:0}}
+  @keyframes m3 {0%,11%{opacity:0} 13%,98%{opacity:1} 100%{opacity:0}}
+  @keyframes m4 {0%,16%{opacity:0} 18%,98%{opacity:1} 100%{opacity:0}}
+  @keyframes m5 {0%,21%{opacity:0} 23%,98%{opacity:1} 100%{opacity:0}}
+  @keyframes m6 {0%,27%{opacity:0} 29%,98%{opacity:1} 100%{opacity:0}}
+  @keyframes m7 {0%,33%{opacity:0} 35%,98%{opacity:1} 100%{opacity:0}}
+  @keyframes m8 {0%,39%{opacity:0} 41%,98%{opacity:1} 100%{opacity:0}}
+  @keyframes m9 {0%,44%{opacity:0} 46%,98%{opacity:1} 100%{opacity:0}}
+</style>
+
+  <defs>
+    <!-- arrowheads: one per line color, reused by every message -->
+    <marker id="ah"  markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#1a1a2e"/></marker>
+    <marker id="aho" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#FF9900"/></marker>
+    <marker id="ahr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#6b7280"/></marker>
+
+    <!-- participant icons: defined once, placed with <use> -->
+    <g id="ic-user" class="ico">
+      <circle cx="0" cy="-6" r="5"/>
+      <path d="M -9 9 C -9 1, 9 1, 9 9"/>
+    </g>
+    <g id="ic-agent" class="ico">
+      <line x1="0" y1="-13" x2="0" y2="-9"/>
+      <circle cx="0" cy="-14" r="1.5" class="ico-dot"/>
+      <rect x="-9" y="-9" width="18" height="15" rx="4"/>
+      <circle cx="-4" cy="-2" r="1.6" class="ico-dot"/>
+      <circle cx="4" cy="-2" r="1.6" class="ico-dot"/>
+    </g>
+    <g id="ic-server" class="ico">
+      <rect x="-9" y="-12" width="18" height="9" rx="2"/>
+      <rect x="-9" y="1" width="18" height="9" rx="2"/>
+      <circle cx="-4.5" cy="-7.5" r="1.2" class="ico-dot"/>
+      <circle cx="-4.5" cy="5.5" r="1.2" class="ico-dot"/>
+    </g>
+    <g id="ic-store" class="ico">
+      <ellipse cx="0" cy="-9" rx="9" ry="3.5"/>
+      <path d="M -9 -9 V 8 C -9 11, 9 11, 9 8 V -9"/>
+      <path d="M -9 -1 C -9 2, 9 2, 9 -1"/>
+    </g>
+  </defs>
+
+  <rect width="1000" height="540" fill="#ffffff"/>
+
+  <!-- lifelines -->
+  <line class="ll" x1="150" y1="74" x2="150" y2="474"/>
+  <line class="ll" x1="420" y1="74" x2="420" y2="474"/>
+  <line class="ll" x1="680" y1="74" x2="680" y2="474"/>
+  <line class="ll" x1="890" y1="74" x2="890" y2="474"/>
+
+  <!-- participant headers (icon reused via <use>) -->
+  <rect class="hdr" x="78" y="20" width="144" height="46" rx="9"/>
+  <use href="#ic-user" x="100" y="43"/>
+  <text class="hdr-txt" x="124" y="48">User</text>
+
+  <rect class="hdr" x="348" y="20" width="144" height="46" rx="9"/>
+  <use href="#ic-agent" x="372" y="43"/>
+  <text class="hdr-txt" x="396" y="48">Agent</text>
+
+  <rect class="hdr" x="600" y="20" width="160" height="46" rx="9"/>
+  <use href="#ic-server" x="624" y="43"/>
+  <text class="hdr-txt" x="648" y="48">sop-mcp</text>
+
+  <rect class="hdr" x="818" y="20" width="144" height="46" rx="9"/>
+  <use href="#ic-store" x="842" y="43"/>
+  <text class="hdr-txt" x="866" y="48">Storage</text>
+
+  <!-- ===== messages ===== -->
+  <g class="msg m1">
+    <text class="lbl call" x="285" y="102">"Run an SOP"</text>
+    <line class="line call" x1="150" y1="110" x2="420" y2="110" marker-end="url(#ah)"/>
+  </g>
+  <g class="msg m2">
+    <text class="lbl callo" x="550" y="140">run_sop(step 0)</text>
+    <line class="line callo" x1="420" y1="148" x2="680" y2="148" marker-end="url(#aho)"/>
+  </g>
+  <g class="msg m3">
+    <text class="lbl call" x="785" y="178">read SOP</text>
+    <line class="line call" x1="680" y1="186" x2="890" y2="186" marker-end="url(#ah)"/>
+  </g>
+  <g class="msg m4">
+    <text class="lbl ret" x="550" y="216">Step 1 of N + execution rules</text>
+    <line class="line ret" x1="680" y1="224" x2="420" y2="224" marker-end="url(#ahr)"/>
+  </g>
+  <g class="msg m5">
+    <path class="line call" d="M 420 244 H 484 V 272 H 420" marker-end="url(#ah)"/>
+    <text class="lbl call" x="496" y="263" text-anchor="start">execute the step (do the work)</text>
+  </g>
+  <g class="msg m6">
+    <rect class="opt-frame" x="130" y="292" width="306" height="52" rx="5"/>
+    <rect class="opt-tab" x="130" y="292" width="150" height="17" rx="5"/>
+    <text class="opt-tab-txt" x="138" y="305">opt &#183; HUMAN IN THE LOOP</text>
+    <text class="lbl callo" x="292" y="328">optionally show progress / ask input</text>
+    <line class="line hitl" x1="420" y1="336" x2="150" y2="336" marker-end="url(#aho)"/>
+  </g>
+  <g class="msg m7">
+    <text class="lbl callo" x="550" y="378">run_sop(step+1, step_output)</text>
+    <line class="line callo" x1="420" y1="386" x2="680" y2="386" marker-end="url(#aho)"/>
+    <rect class="note" x="472" y="394" width="156" height="22" rx="5"/>
+    <text class="note-txt" x="550" y="409">gated &#183; output unlocks next step</text>
+  </g>
+  <g class="msg m8">
+    <text class="lbl ret" x="550" y="440">Step 2 &#8230; &#10003; "SOP execution complete"</text>
+    <line class="line ret" x1="680" y1="448" x2="420" y2="448" marker-end="url(#ahr)"/>
+  </g>
+  <g class="msg m9">
+    <text class="lbl ret" x="285" y="468">done</text>
+    <line class="line ret" x1="420" y1="476" x2="150" y2="476" marker-end="url(#ahr)"/>
+  </g>
+
+  <text x="500" y="516" text-anchor="middle" font-size="12" fill="#9ca3af" letter-spacing="1">ONE STEP AT A TIME &#183; EACH GATED BEHIND THE PREVIOUS STEP'S OUTPUT</text>
+</svg>
