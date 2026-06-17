@@ -66,6 +66,9 @@ jobs:
   security:
     name: security scan (ASH)
     runs-on: ubuntu-latest
+    # The security scan is the authoritative AppSec gate — only run it on pull
+    # requests, not on every branch push (lint + test still run everywhere).
+    if: github.event_name == 'pull_request'
     steps:
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
@@ -80,10 +83,19 @@ jobs:
       - name: Run ASH security scan
         run: uvx --from git+https://github.com/awslabs/automated-security-helper.git@v3.5.3 ash
 
-      - name: Print ASH report summary
+      # Surface the human-readable summary directly on the workflow run page.
+      - name: Publish ASH summary to job summary
         if: always()
-        run: uvx --from git+https://github.com/awslabs/automated-security-helper.git@v3.5.3 ash report
+        run: |
+          if [ -f .ash/ash_output/reports/ash.summary.md ]; then
+            cat .ash/ash_output/reports/ash.summary.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "No ASH summary report was generated." >> "$GITHUB_STEP_SUMMARY"
+          fi
 
+      # Full reports (SARIF, HTML, JSON) are uploaded as a downloadable artifact.
+      # Note: pushing findings to GitHub code scanning is intentionally omitted —
+      # the org-level GITHUB_TOKEN can't be granted security-events:write here.
       - name: Upload ASH results
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # v4
