@@ -70,17 +70,33 @@ A clean lint means a clean publish, so your SOP is immediately runnable: *"Run m
 
 ## 🔄 How It Works
 
-```
-You: "Run the SOP creation guide."
-        │
-        ▼
-  agent discovers SOPs ─► starts the run ─► receives Step 1 (must execute, not just read)
-        │
-        ▼
-  agent does the work ─► reports the step's output ─► advances to Step 2
-        │
-        ▼
-   ... repeats until the final step ─► "SOP execution complete."
+```mermaid
+sequenceDiagram
+    actor User
+    participant Agent as AI Agent (MCP client)
+    participant SOP as sop-mcp server
+    participant Store as SOP storage (~/.sop_mcp)
+
+    User->>Agent: "Run the code review SOP"
+    Agent->>SOP: list_resources
+    SOP->>Store: scan *.sop.md
+    Store-->>SOP: SOP names
+    SOP-->>Agent: available SOPs (sop://...)
+
+    Agent->>SOP: run_sop(sop_name, current_step=0)
+    SOP->>Store: read SOP markdown
+    SOP-->>Agent: Step 1 of N + execution rules
+    Agent->>Agent: execute step 1 (do the work)
+
+    Agent->>SOP: run_sop(current_step=1, step_output="...")
+    Note over Agent,SOP: required — step_output gates the next step
+    opt human in the loop
+        Agent-->>User: optionally show progress / ask input
+    end
+    SOP-->>Agent: Step 2 of N
+    Note over Agent,SOP: repeat until the final step
+    SOP-->>Agent: "SOP execution complete."
+    Agent-->>User: done
 ```
 
 Each step tells the agent to *execute* — not just read. It must produce the step's expected output before advancing, which is what makes the run auditable. As the human in the loop, you see each step's result and can intervene at any point.
