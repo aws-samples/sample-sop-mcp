@@ -133,13 +133,12 @@ To use a custom location, add a `SOP_STORAGE_DIR` env var to the server config:
 
 ## 📚 Documentation
 
-| Audience   | Resource                                                                                       |
-| ---------- | ---------------------------------------------------------------------------------------------- |
-| AI tools   | [`llms.txt`](llms.txt) — auto-discovered server description                                    |
-| Users      | [`skills/sop-mcp-usage/`](skills/sop-mcp-usage/SKILL.md) — how to use                          |
-| Operators  | [`skills/sop-mcp-configuration/`](skills/sop-mcp-configuration/SKILL.md) — install & configure |
-| Developers | [`CONTRIBUTING.md`](CONTRIBUTING.md) — build, test, design decisions                           |
-| Reference  | [`docs/mcp-reference.md`](docs/mcp-reference.md) — full tool schemas                           |
+| Audience   | Resource                                                              |
+| ---------- | --------------------------------------------------------------------- |
+| AI tools   | [`llms.txt`](llms.txt) — auto-discovered server description           |
+| Users      | [`skills/sop-mcp-usage/`](skills/sop-mcp-usage/SKILL.md) — how to use |
+| Developers | [`CONTRIBUTING.md`](CONTRIBUTING.md) — build, test, design decisions  |
+| Reference  | [`docs/mcp-reference.md`](docs/mcp-reference.md) — full tool schemas  |
 
 ## 💻 Development
 
