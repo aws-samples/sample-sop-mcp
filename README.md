@@ -87,6 +87,24 @@ Each step tells the agent to *execute* — not just read. It must produce the st
 
 > **⚠️ Treat SOP content as untrusted.** sop-mcp serves SOP markdown to your agent verbatim — it can't tell a legitimate instruction from a malicious one. If your `SOP_STORAGE_DIR` is shared, synced, or holds SOPs you didn't author, review an SOP before running it: a crafted SOP could steer the agent into unintended actions (prompt injection). Keep a human in the loop for steps with real-world side effects.
 
+## 🧩 SOPs vs. Skills
+
+An [Agent Skill](https://agentskills.io) and an SOP look similar — both are markdown that guides an agent — but they work differently:
+
+- A **skill** is loaded into the agent's context *all at once*. The agent reads the whole playbook and self-directs, so it can read ahead, skip, batch, or summarize steps. Great for domain knowledge and flexible tasks.
+- An **SOP via sop-mcp** is metered out *one step at a time*. The agent sees only the current step and must report that step's output before the next one is released. It can't look ahead or skip — which is what makes a multi-step run consistent and auditable.
+
+|                   | Agent Skill                      | SOP via sop-mcp                                    |
+| ----------------- | -------------------------------- | -------------------------------------------------- |
+| Delivery          | whole playbook at once           | one step at a time                                 |
+| Sequencing        | agent self-discipline            | gated — output required to advance                 |
+| Progress state    | none                             | tracked and explicit                               |
+| Look ahead / skip | possible                         | not possible                                       |
+| Form              | static markdown file             | running server + tools (lint / publish / feedback) |
+| Best for          | domain reference, flexible tasks | multi-step processes needing consistency & audit   |
+
+The two are complementary, not competing: this repo even ships a skill ([`sop-mcp-usage`](skills/sop-mcp-usage/SKILL.md)) that teaches an agent *how* to drive the server. Skill = the "how", sop-mcp = the execution engine.
+
 ## 📦 Bundled SOPs
 
 Four SOPs ship with the server — ask your agent to run any by name:
