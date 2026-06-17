@@ -103,14 +103,14 @@ Each step tells the agent to *execute* — not just read. It must produce the st
 
 > **⚠️ Treat SOP content as untrusted.** sop-mcp serves SOP markdown to your agent verbatim — it can't tell a legitimate instruction from a malicious one. If your `SOP_STORAGE_DIR` is shared, synced, or holds SOPs you didn't author, review an SOP before running it: a crafted SOP could steer the agent into unintended actions (prompt injection). Keep a human in the loop for steps with real-world side effects.
 
-## 🧩 SOPs vs. Skills
+## 🧩 Agent SOPs vs. Skills
 
-An [Agent Skill](https://agentskills.io) and an SOP look similar — both are markdown that guides an agent — but they work differently:
+The SOPs here use the [Agent SOP](https://github.com/strands-agents/agent-sop) format — portable markdown workflows (parameterized, with RFC 2119 `MUST`/`SHOULD`/`MAY` constraints) that guide an agent through a multi-step process. An [Agent Skill](https://agentskills.io) is *also* markdown that guides an agent, so the two look similar — the real difference is **how the instructions reach the agent**:
 
-- A **skill** is loaded into the agent's context *all at once*. The agent reads the whole playbook and self-directs, so it can read ahead, skip, batch, or summarize steps. Great for domain knowledge and flexible tasks.
-- An **SOP via sop-mcp** is metered out *one step at a time*. The agent sees only the current step and must report that step's output before the next one is released. It can't look ahead or skip — which is what makes a multi-step run consistent and auditable.
+- **As a skill** — the whole playbook loads into context at once and the agent self-directs, so it can read ahead, skip, batch, or summarize. Great for domain knowledge and flexible tasks. (Agent SOPs can even be exported to the Skills format.)
+- **Via sop-mcp** — the same SOP is metered out *one step at a time*. The agent sees only the current step and must report its output before the next is released. It can't look ahead or skip — which is what makes a multi-step run consistent and auditable.
 
-|                   | Agent Skill                      | SOP via sop-mcp                                    |
+|                   | As a Skill                       | Run via sop-mcp                                    |
 | ----------------- | -------------------------------- | -------------------------------------------------- |
 | Delivery          | whole playbook at once           | one step at a time                                 |
 | Sequencing        | agent self-discipline            | gated — output required to advance                 |
@@ -119,7 +119,7 @@ An [Agent Skill](https://agentskills.io) and an SOP look similar — both are ma
 | Form              | static markdown file             | running server + tools (lint / publish / feedback) |
 | Best for          | domain reference, flexible tasks | multi-step processes needing consistency & audit   |
 
-The two are complementary, not competing: this repo even ships a skill ([`sop-mcp-usage`](skills/sop-mcp-usage/SKILL.md)) that teaches an agent *how* to drive the server. Skill = the "how", sop-mcp = the execution engine.
+(Separately, this repo also ships a regular skill — [`sop-mcp-usage`](skills/sop-mcp-usage/SKILL.md) — that teaches an agent *how* to drive the server.)
 
 ## 📦 Bundled SOPs
 
