@@ -70,22 +70,56 @@ A clean lint means a clean publish, so your SOP is immediately runnable: *"Run m
 
 ## 🔄 How It Works
 
-```
-You: "Run the SOP creation guide."
-        │
-        ▼
-  agent discovers SOPs ─► starts the run ─► receives Step 1 (must execute, not just read)
-        │
-        ▼
-  agent does the work ─► reports the step's output ─► advances to Step 2
-        │
-        ▼
-   ... repeats until the final step ─► "SOP execution complete."
+```mermaid
+sequenceDiagram
+    actor User
+    participant Agent as AI Agent (MCP client)
+    participant SOP as sop-mcp server
+    participant Store as SOP storage (~/.sop_mcp)
+
+    User->>Agent: "Run the code review SOP"
+    Agent->>SOP: list_resources
+    SOP->>Store: scan *.sop.md
+    Store-->>SOP: SOP names
+    SOP-->>Agent: available SOPs (sop://...)
+
+    Agent->>SOP: run_sop(sop_name, current_step=0)
+    SOP->>Store: read SOP markdown
+    SOP-->>Agent: Step 1 of N + execution rules
+    Agent->>Agent: execute step 1 (do the work)
+
+    Agent->>SOP: run_sop(current_step=1, step_output="...")
+    Note over Agent,SOP: required — step_output gates the next step
+    opt human in the loop
+        Agent-->>User: optionally show progress / ask input
+    end
+    SOP-->>Agent: Step 2 of N
+    Note over Agent,SOP: repeat until the final step
+    SOP-->>Agent: "SOP execution complete."
+    Agent-->>User: done
 ```
 
 Each step tells the agent to *execute* — not just read. It must produce the step's expected output before advancing, which is what makes the run auditable. As the human in the loop, you see each step's result and can intervene at any point.
 
 > **⚠️ Treat SOP content as untrusted.** sop-mcp serves SOP markdown to your agent verbatim — it can't tell a legitimate instruction from a malicious one. If your `SOP_STORAGE_DIR` is shared, synced, or holds SOPs you didn't author, review an SOP before running it: a crafted SOP could steer the agent into unintended actions (prompt injection). Keep a human in the loop for steps with real-world side effects.
+
+## 🧩 Agent SOPs vs. Skills
+
+The SOPs here use the [Agent SOP](https://github.com/strands-agents/agent-sop) format — portable markdown workflows (parameterized, with RFC 2119 `MUST`/`SHOULD`/`MAY` constraints) that guide an agent through a multi-step process. An [Agent Skill](https://agentskills.io) is *also* markdown that guides an agent, so the two look similar — the real difference is **how the instructions reach the agent**:
+
+- **As a skill** — the whole playbook loads into context at once and the agent self-directs, so it can read ahead, skip, batch, or summarize. Great for domain knowledge and flexible tasks. (Agent SOPs can even be exported to the Skills format.)
+- **Via sop-mcp** — the same SOP is metered out *one step at a time*. The agent sees only the current step and must report its output before the next is released. It can't look ahead or skip — which is what makes a multi-step run consistent and auditable.
+
+|                   | As a Skill                       | Run via sop-mcp                                    |
+| ----------------- | -------------------------------- | -------------------------------------------------- |
+| Delivery          | whole playbook at once           | one step at a time                                 |
+| Sequencing        | agent self-discipline            | gated — output required to advance                 |
+| Progress state    | none                             | tracked and explicit                               |
+| Look ahead / skip | possible                         | not possible                                       |
+| Form              | static markdown file             | running server + tools (lint / publish / feedback) |
+| Best for          | domain reference, flexible tasks | multi-step processes needing consistency & audit   |
+
+(Separately, this repo also ships a regular skill — [`sop-mcp-usage`](skills/sop-mcp-usage/SKILL.md) — that teaches an agent *how* to drive the server.)
 
 ## 📦 Bundled SOPs
 
