@@ -34,8 +34,7 @@ Add the server with one click, or paste the config below.
   "mcpServers": {
     "sop-mcp": {
       "command": "uvx",
-      "args": ["--from", "git+https://github.com/aws-samples/sample-sop-mcp", "sop-mcp"],
-      "env": { "SOP_STORAGE_DIR": "/path/to/your/sops" }
+      "args": ["--from", "git+https://github.com/aws-samples/sample-sop-mcp", "sop-mcp"]
     }
   }
 }
@@ -117,6 +116,20 @@ Full parameter reference: [docs/mcp-reference.md](docs/mcp-reference.md)
 ## 💾 Storage
 
 On first run the server seeds the bundled SOPs into your storage directory — `~/.sop_mcp` by default, or set `SOP_STORAGE_DIR` to point it elsewhere. Bundled SOPs are only copied when the directory has no SOPs yet, so anything you author is never overwritten.
+
+To use a custom location, add a `SOP_STORAGE_DIR` env var to the server config:
+
+```json
+{
+  "mcpServers": {
+    "sop-mcp": {
+      "command": "uvx",
+      "args": ["--from", "git+https://github.com/aws-samples/sample-sop-mcp", "sop-mcp"],
+      "env": { "SOP_STORAGE_DIR": "/path/to/your/sops" }
+    }
+  }
+}
+```
 
 ## 📚 Documentation
 
