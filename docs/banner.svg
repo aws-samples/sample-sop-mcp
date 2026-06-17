@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1080 1080" width="1080" height="1080" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<style>
+.flow {
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  opacity: 0.6;
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  animation-name: flowIn;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.flow-dead {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  opacity: 0.7;
+  stroke-dasharray: 1500;
+  stroke-dashoffset: 1500;
+  animation-name: flowIn;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.flow-order {
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  opacity: 0.6;
+  stroke-dasharray: 4000;
+  stroke-dashoffset: 4000;
+  animation-name: flowInLong;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes flowIn {
+  0% { stroke-dashoffset: 2000; }
+  100% { stroke-dashoffset: -2000; }
+}
+@keyframes flowInLong {
+  0% { stroke-dashoffset: 4000; }
+  100% { stroke-dashoffset: -4000; }
+}
+
+/* --- Declarative state loop (no JS): 16s cycle ---
+   0-2s LLM chaos | 2-12s LLM + SOP-MCP (ordered) | 12-16s back to chaos */
+.chaos-paths, .chaos-dead { animation: chaosVis 16s linear infinite; }
+.ordered-paths { opacity: 0; animation: orderVis 16s linear infinite; }
+@keyframes chaosVis { 0%, 12.5% { opacity: 1; } 18%, 75% { opacity: 0; } 81%, 100% { opacity: 1; } }
+@keyframes orderVis { 0%, 12.5% { opacity: 0; } 19%, 75% { opacity: 1; } 80%, 100% { opacity: 0; } }
+
+/* Toggle switch */
+.toggle-bg { fill: #e5e7eb; rx: 14; animation: bgCycle 16s linear infinite; }
+.toggle-knob { fill: white; animation: knobCycle 16s linear infinite; }
+@keyframes bgCycle { 0%, 12.5% { fill: #e5e7eb; } 16%, 75% { fill: #FF9900; } 79%, 100% { fill: #e5e7eb; } }
+@keyframes knobCycle { 0%, 12.5% { cx: 895px; } 16%, 75% { cx: 919px; } 79%, 100% { cx: 895px; } }
+.lbl { font-family: Inter, -apple-system, sans-serif; font-size: 13px; fill: #6b7280; font-weight: 500; }
+#lbl-off { animation: lblOffCycle 16s linear infinite; }
+#lbl-on { animation: lblOnCycle 16s linear infinite; }
+@keyframes lblOffCycle { 0%, 12.5% { fill: #1a1a2e; } 16%, 75% { fill: #6b7280; } 79%, 100% { fill: #1a1a2e; } }
+@keyframes lblOnCycle { 0%, 12.5% { fill: #6b7280; } 16%, 75% { fill: #1a1a2e; } 79%, 100% { fill: #6b7280; } }
+
+/* Subtitle crossfade */
+.subtitle-chaos { animation: subChaos 16s linear infinite; }
+.subtitle-order { animation: subOrder 16s linear infinite; }
+@keyframes subChaos { 0%, 12.5% { opacity: 1; } 17%, 75% { opacity: 0; } 81%, 100% { opacity: 1; } }
+@keyframes subOrder { 0%, 14% { opacity: 0; } 19%, 75% { opacity: 1; } 79%, 100% { opacity: 0; } }
+</style>
+
+  <rect width="1080" height="1080" fill="#ffffff"/>
+  <defs>
+    <pattern id="dots" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="15" cy="15" r="0.8" fill="#d1d5db"/>
+    </pattern>
+  </defs>
+  <rect width="1080" height="1080" fill="url(#dots)"/>
+
+  <g class="chaos-paths">
+      <path class="flow" d="M 80 540 C 147 569, 160 254, 217 247 C 224 211, 216 668, 244 693 C 529 682, 785 548, 1000 540" stroke="#f97316" style="animation-duration: 6.2s; animation-delay: 0.8s;"/>
+      <path class="flow" d="M 80 540 C 110 545, 176 261, 215 253 C 215 218, 248 702, 250 698 C 396 706, 531 751, 674 746 C 704 786, 767 139, 780 113 C 829 119, 839 384, 842 402 C 920 370, 934 552, 1000 540" stroke="#fb923c" style="animation-duration: 7.8s; animation-delay: 1.2s;"/>
+      <path class="flow" d="M 80 540 C 231 546, 295 141, 402 148 C 546 134, 666 144, 784 130 C 899 99, 953 550, 1000 540" stroke="#fdba74" style="animation-duration: 7.4s; animation-delay: 2.9s;"/>
+      <path class="flow" d="M 80 540 C 174 504, 206 702, 260 707 C 413 675, 544 778, 677 750 C 772 782, 791 380, 841 397 C 915 420, 957 566, 1000 540" stroke="#f59e0b" style="animation-duration: 13.4s; animation-delay: 1.8s;"/>
+      <path class="flow" d="M 80 540 C 152 511, 187 728, 258 703 C 315 682, 418 812, 458 832 C 535 846, 576 271, 601 297 C 664 305, 740 125, 774 126 C 867 118, 947 565, 1000 540" stroke="#d97706" style="animation-duration: 13.6s; animation-delay: 2.7s;"/>
+      <path class="flow" d="M 80 540 C 149 520, 215 670, 260 700 C 309 693, 330 497, 343 479 C 586 503, 788 565, 1000 540" stroke="#ea580c" style="animation-duration: 11.0s; animation-delay: 3.4s;"/>
+      <path class="flow" d="M 80 540 C 201 514, 346 862, 457 836 C 533 835, 545 282, 590 309 C 579 341, 582 580, 600 605 C 776 627, 864 558, 1000 540" stroke="#dc2626" style="animation-duration: 10.2s; animation-delay: 0.5s;"/>
+      <path class="flow" d="M 80 540 C 147 515, 196 680, 253 696 C 268 699, 306 483, 357 476 C 458 465, 543 286, 599 302 C 605 271, 682 724, 690 751 C 739 719, 786 431, 854 406 C 903 375, 968 525, 1000 540" stroke="#ef4444" style="animation-duration: 8.2s; animation-delay: 1.9s;"/>
+      <path class="flow" d="M 80 540 C 282 554, 453 602, 605 603 C 698 569, 710 86, 776 113 C 797 116, 808 388, 843 403 C 887 387, 966 538, 1000 540" stroke="#0891b2" style="animation-duration: 7.2s; animation-delay: 0.7s;"/>
+      <path class="flow" d="M 80 540 C 145 527, 199 718, 243 691 C 282 672, 363 127, 410 157 C 508 150, 601 730, 670 742 C 709 773, 755 94, 777 115 C 789 112, 823 378, 853 405 C 918 434, 938 557, 1000 540" stroke="#06b6d4" style="animation-duration: 8.6s; animation-delay: 0.2s;"/>
+      <path class="flow" d="M 80 540 C 139 576, 154 254, 212 245 C 199 258, 250 715, 242 709 C 285 709, 308 460, 342 477 C 458 477, 519 579, 602 593 C 599 569, 605 296, 608 297 C 754 266, 862 539, 1000 540" stroke="#0ea5e9" style="animation-duration: 11.0s; animation-delay: 2.3s;"/>
+      <path class="flow" d="M 80 540 C 215 544, 250 512, 346 486 C 351 493, 380 124, 398 144 C 636 173, 818 549, 1000 540" stroke="#38bdf8" style="animation-duration: 13.8s; animation-delay: 3.2s;"/>
+      <path class="flow" d="M 80 540 C 171 513, 209 673, 243 694 C 272 690, 334 456, 348 473 C 623 476, 797 553, 1000 540" stroke="#1d4ed8" style="animation-duration: 11.0s; animation-delay: 1.1s;"/>
+      <path class="flow" d="M 80 540 C 150 554, 191 211, 218 241 C 203 210, 222 704, 240 700 C 273 707, 364 165, 394 160 C 394 175, 419 797, 448 825 C 571 831, 665 154, 784 127 C 862 113, 930 552, 1000 540" stroke="#3b82f6" style="animation-duration: 6.8s; animation-delay: 3.1s;"/>
+      <path class="flow" d="M 80 540 C 200 504, 310 137, 395 153 C 455 171, 533 584, 590 595 C 616 584, 591 274, 600 303 C 642 287, 658 739, 677 748 C 703 716, 742 105, 775 113 C 876 138, 937 553, 1000 540" stroke="#7c3aed" style="animation-duration: 13.8s; animation-delay: 2.1s;"/>
+      <path class="flow" d="M 80 540 C 122 576, 202 700, 245 708 C 322 708, 359 149, 398 141 C 640 115, 823 567, 1000 540" stroke="#8b5cf6" style="animation-duration: 10.6s; animation-delay: 1.0s;"/>
+      <path class="flow" d="M 80 540 C 127 537, 187 228, 212 250 C 252 263, 318 493, 359 480 C 469 462, 541 305, 593 299 C 659 310, 743 142, 786 119 C 782 117, 830 383, 853 400 C 908 434, 973 551, 1000 540" stroke="#a78bfa" style="animation-duration: 8.6s; animation-delay: 1.8s;"/>
+      <path class="flow" d="M 80 540 C 159 530, 262 463, 342 479 C 468 464, 515 281, 606 310 C 679 301, 793 409, 859 400 C 939 369, 966 536, 1000 540" stroke="#059669" style="animation-duration: 13.0s; animation-delay: 2.3s;"/>
+      <path class="flow" d="M 80 540 C 232 515, 306 121, 390 143 C 436 162, 447 832, 453 827 C 549 827, 616 765, 675 756 C 740 780, 758 134, 784 111 C 841 141, 843 424, 857 397 C 894 417, 965 526, 1000 540" stroke="#10b981" style="animation-duration: 12.0s; animation-delay: 3.4s;"/>
+      <path class="flow" d="M 80 540 C 164 517, 260 456, 354 472 C 446 451, 518 271, 599 297 C 666 309, 725 124, 778 120 C 805 133, 811 390, 850 407 C 933 420, 959 567, 1000 540" stroke="#be185d" style="animation-duration: 12.2s; animation-delay: 3.8s;"/>
+      <path class="flow" d="M 80 540 C 308 549, 453 594, 605 590 C 652 619, 676 776, 681 749 C 792 771, 898 527, 1000 540" stroke="#db2777" style="animation-duration: 9.4s; animation-delay: 0.1s;"/>
+      <path class="flow" d="M 80 540 C 222 554, 298 182, 409 157 C 480 140, 518 288, 590 302 C 623 303, 651 757, 688 758 C 738 761, 798 379, 840 392 C 922 405, 948 563, 1000 540" stroke="#ec4899" style="animation-duration: 6.6s; animation-delay: 0.1s;"/>
+      <path class="flow" d="M 80 540 C 250 503, 341 804, 460 822 C 615 784, 710 90, 790 111 C 859 87, 947 552, 1000 540" stroke="#f43f5e" style="animation-duration: 7.0s; animation-delay: 3.8s;"/>
+      <path class="flow" d="M 80 540 C 175 525, 178 702, 243 695 C 339 735, 382 799, 449 823 C 526 821, 578 311, 608 290 C 581 322, 583 600, 599 608 C 636 622, 660 726, 682 752 C 811 755, 884 564, 1000 540" stroke="#c026d3" style="animation-duration: 9.4s; animation-delay: 2.0s;"/>
+      <path class="flow" d="M 80 540 C 200 531, 293 147, 406 160 C 448 177, 430 857, 448 839 C 510 871, 578 317, 607 305 C 671 308, 711 124, 784 123 C 837 124, 826 399, 858 398 C 897 403, 953 531, 1000 540" stroke="#f97316" style="animation-duration: 8.2s; animation-delay: 2.4s;"/>
+      <path class="flow" d="M 80 540 C 132 502, 160 241, 217 253 C 256 264, 308 476, 355 487 C 463 521, 527 605, 597 605 C 679 632, 734 122, 790 125 C 891 155, 938 532, 1000 540" stroke="#fb923c" style="animation-duration: 11.6s; animation-delay: 1.1s;"/>
+      <path class="flow" d="M 80 540 C 223 567, 317 145, 393 157 C 449 141, 532 580, 595 596 C 588 578, 594 275, 596 305 C 683 333, 711 115, 778 128 C 838 94, 948 528, 1000 540" stroke="#fdba74" style="animation-duration: 11.6s; animation-delay: 0.5s;"/>
+      <path class="flow" d="M 80 540 C 111 573, 200 263, 224 250 C 205 229, 227 712, 245 691 C 312 689, 337 140, 398 155 C 485 186, 596 750, 673 742 C 724 781, 743 144, 782 125 C 872 133, 942 568, 1000 540" stroke="#f59e0b" style="animation-duration: 9.6s; animation-delay: 3.4s;"/>
+      <path class="flow" d="M 80 540 C 110 552, 193 260, 230 246 C 245 266, 240 664, 248 692 C 290 688, 348 161, 395 147 C 532 165, 575 770, 675 757 C 725 750, 811 402, 842 395 C 917 380, 959 517, 1000 540" stroke="#d97706" style="animation-duration: 10.4s; animation-delay: 2.6s;"/>
+      <path class="flow" d="M 80 540 C 149 551, 174 261, 219 259 C 278 282, 324 454, 358 479 C 384 444, 397 160, 404 143 C 474 180, 540 270, 604 299 C 737 288, 897 547, 1000 540" stroke="#ea580c" style="animation-duration: 13.6s; animation-delay: 4.0s;"/>
+      <path class="flow" d="M 80 540 C 160 562, 167 260, 226 260 C 369 272, 491 588, 604 598 C 612 571, 587 299, 595 308 C 666 331, 724 142, 783 130 C 899 141, 949 512, 1000 540" stroke="#dc2626" style="animation-duration: 9.6s; animation-delay: 1.3s;"/>
+      <path class="flow" d="M 80 540 C 156 563, 202 252, 227 254 C 315 220, 343 128, 403 141 C 425 117, 431 834, 446 836 C 566 858, 597 730, 681 759 C 818 796, 899 555, 1000 540" stroke="#ef4444" style="animation-duration: 7.2s; animation-delay: 2.2s;"/>
+      <path class="flow" d="M 80 540 C 139 570, 174 238, 230 244 C 262 280, 329 496, 355 479 C 401 456, 374 135, 406 148 C 503 161, 544 634, 603 605 C 695 629, 727 139, 785 117 C 841 113, 934 563, 1000 540" stroke="#0891b2" style="animation-duration: 10.6s; animation-delay: 4.0s;"/>
+      <path class="flow" d="M 80 540 C 214 552, 255 477, 357 487 C 472 507, 532 298, 602 304 C 613 283, 611 568, 600 596 C 608 620, 670 749, 677 758 C 772 730, 807 373, 852 397 C 914 415, 935 556, 1000 540" stroke="#06b6d4" style="animation-duration: 7.2s; animation-delay: 3.5s;"/>
+      <path class="flow" d="M 80 540 C 172 568, 203 699, 250 709 C 320 731, 370 132, 402 160 C 587 128, 705 410, 842 400 C 918 396, 946 557, 1000 540" stroke="#0ea5e9" style="animation-duration: 6.8s; animation-delay: 3.9s;"/>
+      <path class="flow" d="M 80 540 C 307 507, 441 282, 599 290 C 688 305, 757 385, 841 400 C 907 412, 968 553, 1000 540" stroke="#38bdf8" style="animation-duration: 12.4s; animation-delay: 0.7s;"/>
+      <path class="flow" d="M 80 540 C 270 529, 459 607, 609 597 C 625 615, 658 770, 685 758 C 781 777, 903 553, 1000 540" stroke="#1d4ed8" style="animation-duration: 10.4s; animation-delay: 0.3s;"/>
+      <path class="flow" d="M 80 540 C 141 573, 199 710, 248 704 C 316 701, 369 849, 449 826 C 522 836, 553 575, 602 605 C 636 571, 669 764, 673 747 C 804 743, 895 548, 1000 540" stroke="#3b82f6" style="animation-duration: 12.4s; animation-delay: 0.9s;"/>
+      <path class="flow" d="M 80 540 C 172 556, 188 700, 260 693 C 393 669, 490 638, 610 610 C 590 611, 602 280, 591 299 C 736 275, 891 566, 1000 540" stroke="#7c3aed" style="animation-duration: 13.8s; animation-delay: 2.1s;"/>
+      <path class="flow" d="M 80 540 C 171 571, 201 675, 249 700 C 406 710, 469 290, 593 304 C 628 279, 657 737, 672 744 C 755 737, 811 396, 847 402 C 930 409, 940 553, 1000 540" stroke="#8b5cf6" style="animation-duration: 7.8s; animation-delay: 0.1s;"/>
+
+  </g>
+
+  <g class="chaos-dead">
+      <path class="flow-dead" d="M 80 540 C 150 400, 200 200, 250 120" stroke="#dc2626" style="animation-duration: 4.2s;"/>
+      <text x="245" y="110" text-anchor="middle" font-size="18" fill="#dc2626" font-weight="700" font-family="sans-serif" opacity="0.8">✕</text>
+      <path class="flow-dead" d="M 80 540 C 130 650, 180 850, 220 950" stroke="#7c3aed" style="animation-duration: 7.4s;"/>
+      <text x="215" y="960" text-anchor="middle" font-size="18" fill="#7c3aed" font-weight="700" font-family="sans-serif" opacity="0.8">✕</text>
+      <path class="flow-dead" d="M 80 540 C 250 480, 400 250, 500 150" stroke="#0891b2" style="animation-duration: 6.4s;"/>
+      <text x="495" y="140" text-anchor="middle" font-size="18" fill="#0891b2" font-weight="700" font-family="sans-serif" opacity="0.8">✕</text>
+      <path class="flow-dead" d="M 80 540 C 300 600, 500 800, 650 920" stroke="#059669" style="animation-duration: 6.8s;"/>
+      <text x="645" y="930" text-anchor="middle" font-size="18" fill="#059669" font-weight="700" font-family="sans-serif" opacity="0.8">✕</text>
+      <path class="flow-dead" d="M 80 540 C 400 500, 600 300, 720 180" stroke="#be185d" style="animation-duration: 6.6s;"/>
+      <text x="715" y="170" text-anchor="middle" font-size="18" fill="#be185d" font-weight="700" font-family="sans-serif" opacity="0.8">✕</text>
+
+  </g>
+
+  <g class="ordered-paths">
+      <path class="flow-order" d="M 80 540 C 137 452, 177 308, 220 244 C 271 309, 307 424, 348 473 C 367 374, 389 200, 408 138 C 482 188, 546 275, 604 312 C 675 247, 728 146, 790 108 C 817 201, 831 351, 848 409 C 743 465, 680 556, 602 592 C 633 637, 654 714, 675 741 C 584 767, 520 806, 460 822 C 372 780, 313 719, 257 693 C 552 652, 771 567, 1000 540" stroke="#FF9900" style="animation-duration: 8.8s; animation-delay: 1.5s;"/>
+      <path class="flow-order" d="M 80 540 C 134 457, 178 308, 220 247 C 277 323, 315 441, 348 490 C 366 390, 374 223, 394 151 C 474 197, 543 271, 599 304 C 666 249, 711 153, 768 122 C 803 203, 834 345, 860 399 C 763 457, 677 561, 606 598 C 632 644, 658 720, 687 757 C 594 781, 523 820, 457 830 C 368 785, 307 727, 243 699 C 541 656, 772 566, 1000 540" stroke="#f59e0b" style="animation-duration: 15.8s; animation-delay: 2.9s;"/>
+      <path class="flow-order" d="M 80 540 C 138 449, 179 311, 231 254 C 278 322, 325 443, 359 490 C 375 388, 383 229, 392 161 C 485 204, 549 275, 612 303 C 675 255, 731 158, 777 129 C 807 212, 832 352, 857 407 C 752 461, 676 554, 597 590 C 639 642, 662 718, 690 747 C 594 777, 524 815, 454 836 C 371 791, 311 719, 252 694 C 556 646, 776 570, 1000 540" stroke="#f97316" style="animation-duration: 11.2s; animation-delay: 1.6s;"/>
+      <path class="flow-order" d="M 80 540 C 135 458, 188 315, 229 262 C 276 324, 321 436, 356 481 C 367 378, 386 209, 394 138 C 469 180, 534 258, 598 292 C 661 236, 716 152, 768 113 C 799 206, 824 352, 841 411 C 746 467, 675 564, 609 602 C 637 650, 652 726, 680 759 C 588 776, 522 808, 447 824 C 362 788, 301 731, 248 702 C 543 650, 773 567, 1000 540" stroke="#fb923c" style="animation-duration: 9.6s; animation-delay: 2.4s;"/>
+      <path class="flow-order" d="M 80 540 C 134 452, 177 305, 221 252 C 273 323, 321 445, 361 491 C 383 387, 397 219, 409 152 C 488 192, 550 269, 612 301 C 677 249, 719 153, 771 115 C 793 201, 817 344, 841 401 C 738 463, 664 571, 597 612 C 640 660, 660 736, 690 761 C 590 783, 516 813, 445 827 C 361 794, 305 734, 250 711 C 544 659, 774 573, 1000 540" stroke="#fdba74" style="animation-duration: 16.0s; animation-delay: 1.5s;"/>
+      <path class="flow-order" d="M 80 540 C 133 451, 185 308, 225 248 C 267 315, 312 421, 347 468 C 363 368, 384 211, 398 149 C 479 194, 536 271, 602 299 C 672 251, 728 159, 786 124 C 811 212, 840 359, 858 412 C 753 461, 681 555, 605 593 C 637 642, 662 721, 690 759 C 600 776, 523 808, 459 824 C 372 788, 308 720, 246 689 C 546 646, 772 570, 1000 540" stroke="#d97706" style="animation-duration: 8.8s; animation-delay: 0.2s;"/>
+      <path class="flow-order" d="M 80 540 C 143 459, 183 309, 228 256 C 285 322, 318 436, 362 475 C 371 375, 381 219, 393 158 C 475 206, 530 278, 595 302 C 666 254, 726 161, 783 126 C 818 212, 839 356, 859 408 C 758 461, 682 564, 611 602 C 637 649, 657 722, 674 753 C 583 778, 512 808, 439 821 C 359 783, 292 721, 238 703 C 544 655, 767 571, 1000 540" stroke="#ea580c" style="animation-duration: 14.0s; animation-delay: 1.0s;"/>
+      <path class="flow-order" d="M 80 540 C 142 460, 183 317, 223 260 C 271 328, 303 448, 344 491 C 367 388, 382 214, 396 151 C 475 202, 539 280, 605 311 C 673 251, 734 152, 790 116 C 819 198, 838 338, 853 397 C 741 456, 667 556, 589 598 C 633 636, 653 715, 686 742 C 588 772, 522 818, 457 831 C 376 797, 303 730, 243 702 C 544 650, 768 570, 1000 540" stroke="#FF9900" style="animation-duration: 8.8s; animation-delay: 0.0s;"/>
+      <path class="flow-order" d="M 80 540 C 144 456, 176 306, 227 248 C 279 314, 313 424, 348 472 C 367 366, 381 207, 395 138 C 483 183, 540 267, 612 301 C 681 239, 725 142, 772 109 C 801 199, 832 347, 850 404 C 742 463, 675 571, 594 609 C 635 650, 655 730, 689 762 C 591 779, 513 819, 440 831 C 370 793, 313 731, 256 706 C 555 652, 776 569, 1000 540" stroke="#f59e0b" style="animation-duration: 15.8s; animation-delay: 1.2s;"/>
+      <path class="flow-order" d="M 80 540 C 130 459, 175 319, 220 261 C 263 331, 307 440, 342 490 C 363 390, 379 224, 391 158 C 474 198, 529 271, 597 302 C 680 243, 726 160, 790 121 C 817 204, 834 333, 860 390 C 761 456, 676 552, 604 595 C 638 640, 664 716, 682 749 C 592 774, 528 822, 461 838 C 376 800, 319 720, 255 696 C 559 652, 777 572, 1000 540" stroke="#f97316" style="animation-duration: 11.8s; animation-delay: 0.3s;"/>
+      <path class="flow-order" d="M 80 540 C 129 455, 173 311, 212 252 C 268 318, 314 424, 356 471 C 376 373, 388 215, 403 148 C 482 194, 536 279, 596 307 C 668 254, 739 161, 792 130 C 818 209, 828 351, 848 407 C 750 462, 678 556, 602 590 C 641 639, 669 725, 691 756 C 604 782, 529 824, 459 840 C 369 799, 306 728, 238 697 C 540 648, 776 567, 1000 540" stroke="#fb923c" style="animation-duration: 15.2s; animation-delay: 1.3s;"/>
+      <path class="flow-order" d="M 80 540 C 146 453, 179 311, 230 250 C 278 324, 302 439, 338 487 C 357 384, 388 219, 401 152 C 486 195, 539 269, 608 302 C 674 255, 723 164, 770 132 C 802 212, 822 347, 853 402 C 756 464, 677 565, 607 610 C 626 647, 654 710, 670 742 C 588 766, 520 823, 462 839 C 374 803, 310 734, 249 708 C 552 662, 779 573, 1000 540" stroke="#fdba74" style="animation-duration: 13.4s; animation-delay: 0.8s;"/>
+      <path class="flow-order" d="M 80 540 C 134 455, 190 302, 230 246 C 282 312, 314 428, 350 469 C 366 376, 383 213, 401 150 C 476 194, 541 274, 600 309 C 669 252, 719 152, 771 111 C 810 199, 833 340, 860 397 C 762 465, 679 566, 604 609 C 631 649, 667 728, 688 761 C 598 781, 526 802, 456 819 C 374 775, 313 720, 245 690 C 550 641, 769 566, 1000 540" stroke="#d97706" style="animation-duration: 10.0s; animation-delay: 2.3s;"/>
+      <path class="flow-order" d="M 80 540 C 137 453, 183 311, 219 254 C 267 317, 309 435, 350 479 C 371 380, 392 226, 404 158 C 482 205, 541 270, 609 301 C 673 249, 732 169, 784 131 C 812 209, 820 345, 842 400 C 750 459, 677 556, 612 595 C 642 644, 666 714, 685 748 C 589 766, 515 803, 446 821 C 371 780, 321 721, 259 701 C 560 648, 773 575, 1000 540" stroke="#ea580c" style="animation-duration: 14.0s; animation-delay: 2.6s;"/>
+      <path class="flow-order" d="M 80 540 C 129 454, 181 315, 219 260 C 266 327, 308 436, 339 478 C 366 375, 380 214, 394 154 C 485 197, 541 273, 612 302 C 686 242, 734 149, 789 117 C 817 203, 844 346, 860 404 C 752 465, 682 556, 600 601 C 633 647, 646 722, 668 750 C 587 773, 519 818, 462 836 C 381 796, 316 721, 253 688 C 550 643, 771 569, 1000 540" stroke="#FF9900" style="animation-duration: 8.8s; animation-delay: 1.6s;"/>
+      <path class="flow-order" d="M 80 540 C 133 450, 182 310, 221 250 C 264 323, 304 439, 341 482 C 366 380, 374 217, 397 151 C 477 196, 531 269, 589 297 C 661 238, 732 152, 785 110 C 811 192, 825 336, 838 397 C 736 460, 675 554, 597 596 C 623 639, 645 709, 671 738 C 583 766, 509 804, 440 819 C 371 785, 306 720, 257 691 C 554 642, 772 571, 1000 540" stroke="#f59e0b" style="animation-duration: 12.4s; animation-delay: 0.9s;"/>
+      <path class="flow-order" d="M 80 540 C 138 452, 181 319, 217 261 C 272 330, 316 430, 351 478 C 371 374, 383 210, 392 143 C 469 190, 535 267, 593 293 C 669 246, 719 160, 772 121 C 802 198, 818 342, 842 396 C 740 457, 676 558, 604 604 C 640 648, 661 714, 689 738 C 584 771, 516 815, 441 841 C 367 798, 316 731, 259 706 C 556 654, 775 568, 1000 540" stroke="#f97316" style="animation-duration: 8.6s; animation-delay: 1.3s;"/>
+      <path class="flow-order" d="M 80 540 C 138 459, 176 318, 212 259 C 262 333, 308 448, 341 489 C 366 393, 378 216, 399 155 C 480 201, 529 276, 593 311 C 675 254, 720 155, 783 120 C 812 207, 839 347, 858 410 C 756 469, 674 567, 601 609 C 638 658, 654 728, 686 762 C 590 780, 516 819, 444 832 C 364 791, 318 721, 259 697 C 555 649, 782 568, 1000 540" stroke="#fb923c" style="animation-duration: 9.6s; animation-delay: 1.7s;"/>
+      <path class="flow-order" d="M 80 540 C 135 456, 173 312, 220 261 C 273 327, 312 425, 360 470 C 384 373, 398 211, 409 142 C 484 188, 543 279, 602 308 C 667 255, 727 156, 781 122 C 811 207, 837 348, 854 399 C 753 457, 667 560, 588 604 C 625 646, 655 719, 678 742 C 592 771, 527 821, 462 839 C 380 791, 326 724, 260 695 C 552 651, 772 572, 1000 540" stroke="#fdba74" style="animation-duration: 10.8s; animation-delay: 0.6s;"/>
+      <path class="flow-order" d="M 80 540 C 135 451, 183 298, 220 240 C 267 315, 300 431, 338 481 C 358 379, 380 217, 395 152 C 474 202, 533 278, 598 308 C 669 251, 729 156, 777 123 C 804 203, 829 347, 859 405 C 762 467, 682 568, 609 607 C 632 646, 651 715, 677 741 C 586 767, 506 813, 439 836 C 358 788, 313 718, 253 693 C 554 645, 773 575, 1000 540" stroke="#d97706" style="animation-duration: 13.6s; animation-delay: 2.7s;"/>
+      <path class="flow-order" d="M 80 540 C 139 455, 186 296, 226 241 C 275 309, 305 436, 338 483 C 357 388, 379 216, 389 151 C 477 196, 542 265, 609 296 C 677 238, 724 144, 780 109 C 809 191, 831 340, 859 393 C 754 452, 677 554, 600 600 C 635 646, 655 726, 675 759 C 591 779, 523 814, 451 823 C 367 783, 319 718, 254 690 C 549 648, 770 573, 1000 540" stroke="#ea580c" style="animation-duration: 14.6s; animation-delay: 2.5s;"/>
+      <path class="flow-order" d="M 80 540 C 133 458, 175 306, 216 253 C 268 317, 303 432, 347 478 C 366 377, 381 219, 395 150 C 475 199, 542 266, 612 302 C 679 245, 737 161, 790 126 C 804 203, 824 346, 842 400 C 750 461, 678 563, 602 607 C 629 645, 658 714, 677 744 C 588 767, 519 822, 461 840 C 382 796, 322 726, 262 697 C 553 645, 783 568, 1000 540" stroke="#FF9900" style="animation-duration: 11.2s; animation-delay: 2.3s;"/>
+      <path class="flow-order" d="M 80 540 C 139 454, 174 308, 213 249 C 269 321, 321 445, 360 488 C 381 380, 387 215, 399 141 C 486 193, 552 276, 612 306 C 679 253, 723 168, 776 128 C 804 204, 823 341, 838 396 C 736 458, 668 564, 595 608 C 628 654, 649 726, 669 762 C 589 785, 525 817, 457 826 C 366 789, 310 725, 239 706 C 548 658, 770 572, 1000 540" stroke="#f59e0b" style="animation-duration: 10.4s; animation-delay: 0.5s;"/>
+      <path class="flow-order" d="M 80 540 C 141 451, 190 308, 232 249 C 269 313, 311 436, 338 479 C 363 378, 382 225, 403 159 C 492 201, 544 269, 612 302 C 681 245, 722 159, 772 121 C 796 209, 826 355, 844 411 C 753 460, 676 559, 608 591 C 642 646, 668 729, 689 760 C 591 783, 529 811, 461 822 C 382 777, 314 722, 257 691 C 557 645, 776 567, 1000 540" stroke="#f97316" style="animation-duration: 13.6s; animation-delay: 1.6s;"/>
+      <path class="flow-order" d="M 80 540 C 139 448, 180 298, 220 240 C 278 308, 318 428, 361 475 C 377 380, 385 209, 397 148 C 477 193, 546 273, 604 301 C 670 250, 721 161, 778 130 C 805 215, 826 352, 850 408 C 755 462, 673 567, 603 601 C 623 641, 648 718, 670 746 C 582 774, 527 816, 461 830 C 372 788, 320 719, 255 698 C 553 647, 779 567, 1000 540" stroke="#fb923c" style="animation-duration: 11.6s; animation-delay: 1.8s;"/>
+      <path class="flow-order" d="M 80 540 C 139 450, 188 319, 229 259 C 271 325, 309 428, 349 471 C 366 380, 393 226, 405 159 C 481 203, 528 278, 590 305 C 670 255, 730 169, 785 130 C 817 211, 830 336, 853 394 C 749 454, 679 553, 596 595 C 625 645, 660 725, 682 757 C 588 782, 512 817, 442 836 C 363 798, 312 739, 253 709 C 552 657, 781 578, 1000 540" stroke="#fdba74" style="animation-duration: 12.4s; animation-delay: 0.7s;"/>
+      <path class="flow-order" d="M 80 540 C 142 454, 188 319, 226 261 C 282 335, 319 447, 355 491 C 372 387, 388 208, 405 140 C 482 185, 548 265, 607 295 C 674 241, 729 150, 781 108 C 802 192, 833 345, 849 402 C 754 464, 687 559, 610 595 C 636 645, 661 722, 691 754 C 596 772, 528 813, 461 829 C 383 796, 314 732, 258 704 C 559 654, 774 574, 1000 540" stroke="#d97706" style="animation-duration: 14.8s; animation-delay: 1.3s;"/>
+      <path class="flow-order" d="M 80 540 C 134 456, 185 317, 230 259 C 273 329, 299 433, 338 477 C 359 378, 367 208, 388 140 C 480 185, 543 268, 606 302 C 667 247, 721 152, 774 119 C 796 199, 825 331, 839 389 C 739 450, 665 556, 599 603 C 632 644, 663 720, 689 748 C 595 772, 511 799, 444 819 C 361 789, 300 724, 243 703 C 548 658, 772 567, 1000 540" stroke="#ea580c" style="animation-duration: 11.0s; animation-delay: 2.5s;"/>
+      <path class="flow-order" d="M 80 540 C 140 457, 176 306, 218 249 C 277 321, 320 441, 356 491 C 367 386, 387 213, 396 145 C 479 196, 528 267, 594 304 C 666 246, 732 159, 787 121 C 816 208, 839 353, 854 406 C 749 458, 676 558, 596 594 C 635 649, 655 725, 684 762 C 599 782, 532 820, 461 830 C 371 792, 317 715, 251 692 C 547 648, 772 573, 1000 540" stroke="#FF9900" style="animation-duration: 15.2s; animation-delay: 2.3s;"/>
+      <path class="flow-order" d="M 80 540 C 135 451, 175 311, 213 256 C 269 321, 310 431, 361 476 C 378 371, 394 206, 408 145 C 482 190, 550 257, 605 289 C 681 244, 739 153, 788 125 C 811 202, 839 339, 853 394 C 749 459, 676 561, 597 603 C 631 650, 661 732, 685 760 C 595 776, 529 818, 462 833 C 371 789, 317 721, 250 692 C 551 644, 769 574, 1000 540" stroke="#f59e0b" style="animation-duration: 9.8s; animation-delay: 0.3s;"/>
+      <path class="flow-order" d="M 80 540 C 137 448, 188 300, 229 246 C 273 310, 317 430, 356 471 C 381 376, 385 212, 407 144 C 477 190, 529 273, 588 302 C 668 242, 724 150, 788 114 C 805 199, 819 352, 842 410 C 746 462, 670 556, 595 597 C 633 645, 656 717, 678 742 C 595 767, 525 806, 457 820 C 375 784, 308 728, 253 705 C 553 656, 779 570, 1000 540" stroke="#f97316" style="animation-duration: 15.4s; animation-delay: 1.4s;"/>
+      <path class="flow-order" d="M 80 540 C 138 447, 174 294, 212 239 C 260 313, 302 427, 346 475 C 364 382, 388 221, 408 159 C 490 193, 542 258, 598 289 C 670 238, 727 147, 784 118 C 806 203, 818 333, 838 393 C 743 452, 677 554, 611 588 C 635 638, 652 725, 676 757 C 596 780, 524 811, 462 831 C 371 786, 302 728, 238 699 C 545 648, 773 569, 1000 540" stroke="#fb923c" style="animation-duration: 15.8s; animation-delay: 0.9s;"/>
+      <path class="flow-order" d="M 80 540 C 134 450, 169 306, 208 248 C 259 319, 302 432, 344 474 C 374 377, 391 217, 409 151 C 485 194, 543 268, 595 300 C 671 253, 723 167, 784 128 C 807 212, 824 346, 850 401 C 746 460, 670 564, 590 604 C 631 643, 651 709, 687 740 C 590 772, 524 819, 450 836 C 374 803, 313 734, 256 712 C 557 657, 776 573, 1000 540" stroke="#fdba74" style="animation-duration: 10.6s; animation-delay: 2.8s;"/>
+      <path class="flow-order" d="M 80 540 C 130 451, 177 296, 216 238 C 272 312, 307 440, 344 491 C 362 387, 384 209, 400 138 C 479 186, 542 263, 600 291 C 674 237, 733 143, 786 111 C 814 191, 831 329, 852 390 C 757 445, 677 552, 604 589 C 630 645, 657 722, 672 760 C 582 787, 507 825, 446 835 C 366 801, 314 739, 252 711 C 552 664, 778 572, 1000 540" stroke="#d97706" style="animation-duration: 15.0s; animation-delay: 0.5s;"/>
+      <path class="flow-order" d="M 80 540 C 135 455, 179 307, 214 253 C 270 315, 309 435, 352 479 C 375 383, 379 220, 397 157 C 475 199, 535 282, 594 309 C 666 249, 724 143, 776 108 C 795 189, 818 332, 839 389 C 741 454, 684 569, 610 608 C 637 651, 658 727, 684 752 C 586 781, 514 821, 443 842 C 367 801, 311 734, 248 711 C 542 659, 777 571, 1000 540" stroke="#ea580c" style="animation-duration: 11.0s; animation-delay: 2.2s;"/>
+      <path class="flow-order" d="M 80 540 C 135 447, 177 304, 211 248 C 275 309, 315 424, 358 469 C 379 376, 395 221, 412 156 C 486 201, 534 270, 588 305 C 659 254, 717 163, 782 130 C 810 213, 829 353, 841 406 C 752 461, 674 562, 604 601 C 641 652, 665 727, 688 757 C 588 783, 524 816, 454 830 C 370 783, 309 714, 245 689 C 553 640, 768 564, 1000 540" stroke="#FF9900" style="animation-duration: 13.4s; animation-delay: 1.5s;"/>
+      <path class="flow-order" d="M 80 540 C 130 457, 180 304, 215 248 C 262 312, 297 437, 340 480 C 368 385, 375 226, 395 159 C 486 205, 544 275, 608 304 C 679 249, 724 152, 777 114 C 806 204, 824 340, 847 400 C 755 464, 676 566, 604 612 C 633 649, 659 720, 691 752 C 588 771, 513 816, 444 833 C 357 795, 308 728, 242 698 C 551 653, 770 568, 1000 540" stroke="#f59e0b" style="animation-duration: 11.6s; animation-delay: 1.7s;"/>
+      <path class="flow-order" d="M 80 540 C 135 446, 186 299, 226 239 C 268 309, 314 430, 347 485 C 377 382, 396 207, 410 140 C 488 190, 549 269, 600 297 C 671 244, 715 156, 772 115 C 802 204, 826 355, 841 412 C 736 466, 662 553, 592 590 C 627 643, 658 718, 687 755 C 591 780, 520 806, 447 825 C 367 782, 308 729, 255 699 C 551 649, 781 569, 1000 540" stroke="#f97316" style="animation-duration: 10.4s; animation-delay: 2.3s;"/>
+      <path class="flow-order" d="M 80 540 C 141 449, 181 299, 227 238 C 278 310, 304 436, 346 492 C 371 390, 380 226, 399 155 C 482 196, 529 275, 594 309 C 667 245, 715 156, 773 114 C 797 200, 819 350, 848 403 C 744 463, 680 557, 601 597 C 625 637, 649 712, 677 748 C 585 767, 514 805, 451 824 C 373 787, 308 734, 247 708 C 553 652, 779 568, 1000 540" stroke="#fb923c" style="animation-duration: 11.2s; animation-delay: 1.8s;"/>
+      <path class="flow-order" d="M 80 540 C 128 457, 172 313, 216 250 C 270 317, 312 437, 355 489 C 383 392, 388 221, 410 149 C 490 188, 541 268, 600 293 C 672 248, 723 164, 777 128 C 812 208, 834 350, 852 411 C 757 465, 686 571, 611 609 C 645 653, 667 724, 691 747 C 598 774, 526 809, 460 825 C 380 785, 304 728, 245 711 C 552 663, 777 569, 1000 540" stroke="#fdba74" style="animation-duration: 8.0s; animation-delay: 1.8s;"/>
+
+  </g>
+
+  <rect x="185" y="237" width="70" height="26" rx="13" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="220" y="254" text-anchor="middle" font-size="10" fill="#6b7280" font-family="sans-serif">System A</text>
+  <rect x="365" y="137" width="70" height="26" rx="13" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="400" y="154" text-anchor="middle" font-size="10" fill="#6b7280" font-family="sans-serif">System B</text>
+  <rect x="565" y="287" width="70" height="26" rx="13" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="600" y="304" text-anchor="middle" font-size="10" fill="#6b7280" font-family="sans-serif">System C</text>
+  <rect x="745" y="107" width="70" height="26" rx="13" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="780" y="124" text-anchor="middle" font-size="10" fill="#6b7280" font-family="sans-serif">System D</text>
+  <rect x="215" y="687" width="70" height="26" rx="13" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="250" y="704" text-anchor="middle" font-size="10" fill="#6b7280" font-family="sans-serif">System E</text>
+  <rect x="415" y="817" width="70" height="26" rx="13" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="450" y="834" text-anchor="middle" font-size="10" fill="#6b7280" font-family="sans-serif">System F</text>
+  <rect x="645" y="737" width="70" height="26" rx="13" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="680" y="754" text-anchor="middle" font-size="10" fill="#6b7280" font-family="sans-serif">System G</text>
+  <rect x="815" y="387" width="70" height="26" rx="13" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="850" y="404" text-anchor="middle" font-size="10" fill="#6b7280" font-family="sans-serif">System H</text>
+  <rect x="315" y="467" width="70" height="26" rx="13" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="350" y="484" text-anchor="middle" font-size="10" fill="#6b7280" font-family="sans-serif">System I</text>
+  <rect x="565" y="587" width="70" height="26" rx="13" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1.5"/>
+  <text x="600" y="604" text-anchor="middle" font-size="10" fill="#6b7280" font-family="sans-serif">System J</text>
+
+
+  <circle cx="55" cy="540" r="30" fill="#1a1a2e"/>
+  <text x="55" y="547" text-anchor="middle" font-size="20" fill="white" font-weight="700" font-family="sans-serif">A</text>
+
+  <circle cx="1025" cy="540" r="30" fill="#1a1a2e"/>
+  <text x="1025" y="547" text-anchor="middle" font-size="20" fill="white" font-weight="700" font-family="sans-serif">B</text>
+
+  <text class="subtitle-chaos" x="540" y="1040" text-anchor="middle" font-size="15" fill="#9ca3af" font-family="Inter, -apple-system, sans-serif" letter-spacing="2">SAME PROCESS · DIFFERENT PATH · NO DETERMINISM</text>
+  <text class="subtitle-order" x="540" y="1040" text-anchor="middle" font-size="15" fill="#9ca3af" font-family="Inter, -apple-system, sans-serif" letter-spacing="2">SAME PROCESS · SIMILAR PATH · DETERMINISM IN AGENTIC SYSTEMS</text>
+
+<!-- Toggle Switch -->
+<g id="toggle-group">
+  <text id="lbl-off" class="lbl active" x="870" y="38" text-anchor="end">LLM</text>
+  <rect id="toggle-bg" class="toggle-bg" x="880" y="22" width="52" height="28" rx="14"/>
+  <circle id="toggle-knob" class="toggle-knob" cx="895" cy="36" r="11"/>
+  <text id="lbl-on" class="lbl" x="942" y="38">LLM + SOP-MCP</text>
+</g>
+
+</svg>
