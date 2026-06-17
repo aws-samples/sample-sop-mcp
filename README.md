@@ -25,17 +25,16 @@ A Standard Operating Procedure is a markdown document that captures a repeatable
 
 Add the server with one click, or paste the config below.
 
-|                                                                                                                                         Kiro                                                                                                                                          |                                                                                                                                   Cursor                                                                                                                                   |                                                                                                                                                                                                   VS Code                                                                                                                                                                                                    |
-| :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| [![Add to Kiro](https://kiro.dev/images/add-to-kiro.svg)](https://kiro.dev/launch/mcp/add?name=sop-mcp&config=%7B%22command%22%3A%20%22uvx%22%2C%20%22args%22%3A%20%5B%22--from%22%2C%20%22git%2Bhttps%3A%2F%2Fgithub.com%2Faws-samples%2Fsample-sop-mcp%22%2C%20%22sop-mcp%22%5D%7D) | [![Install MCP Server](https://cursor.com/deeplink/mcp-install-light.svg)](https://cursor.com/en/install-mcp?name=sop-mcp&config=eyJjb21tYW5kIjogInV2eCIsICJhcmdzIjogWyItLWZyb20iLCAiZ2l0K2h0dHBzOi8vZ2l0aHViLmNvbS9hd3Mtc2FtcGxlcy9zYW1wbGUtc29wLW1jcCIsICJzb3AtbWNwIl19) | [![Install on VS Code](https://img.shields.io/badge/Install_on-VS_Code-007ACC?style=flat-square&logo=visualstudiocode&logoColor=white)](https://vscode.dev/redirect/mcp/install?name=sop-mcp&config=%7B%22type%22%3A%20%22stdio%22%2C%20%22command%22%3A%20%22uvx%22%2C%20%22args%22%3A%20%5B%22--from%22%2C%20%22git%2Bhttps%3A%2F%2Fgithub.com%2Faws-samples%2Fsample-sop-mcp%22%2C%20%22sop-mcp%22%5D%7D) |
+|                                                                                                                                          Kiro                                                                                                                                           |                                                                                                                                   Cursor                                                                                                                                   |                                                                                                                                                                                                   VS Code                                                                                                                                                                                                    |
+| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| [![Add to Kiro](https://kiro.dev/images/add-to-kiro.svg)](https://kiro.dev/launch/mcp/add?name=sop-mcp&config=%7B%22command%22%3A%20%22uvx%22%2C%20%22args%22%3A%20%5B%22--from%22%2C%20%22git%252Bhttps%3A%2F%2Fgithub.com%2Faws-samples%2Fsample-sop-mcp%22%2C%20%22sop-mcp%22%5D%7D) | [![Install MCP Server](https://cursor.com/deeplink/mcp-install-light.svg)](https://cursor.com/en/install-mcp?name=sop-mcp&config=eyJjb21tYW5kIjogInV2eCIsICJhcmdzIjogWyItLWZyb20iLCAiZ2l0K2h0dHBzOi8vZ2l0aHViLmNvbS9hd3Mtc2FtcGxlcy9zYW1wbGUtc29wLW1jcCIsICJzb3AtbWNwIl19) | [![Install on VS Code](https://img.shields.io/badge/Install_on-VS_Code-007ACC?style=flat-square&logo=visualstudiocode&logoColor=white)](https://vscode.dev/redirect/mcp/install?name=sop-mcp&config=%7B%22type%22%3A%20%22stdio%22%2C%20%22command%22%3A%20%22uvx%22%2C%20%22args%22%3A%20%5B%22--from%22%2C%20%22git%2Bhttps%3A%2F%2Fgithub.com%2Faws-samples%2Fsample-sop-mcp%22%2C%20%22sop-mcp%22%5D%7D) |
 
 ```json
 {
   "mcpServers": {
     "sop-mcp": {
       "command": "uvx",
-      "args": ["--from", "git+https://github.com/aws-samples/sample-sop-mcp", "sop-mcp"],
-      "env": { "SOP_STORAGE_DIR": "/path/to/your/sops" }
+      "args": ["--from", "git+https://github.com/aws-samples/sample-sop-mcp", "sop-mcp"]
     }
   }
 }
@@ -49,7 +48,7 @@ Restart your MCP client, then ask your agent to list the available SOPs:
 
 > **You:** "List available SOPs."
 
-You should see the four bundled SOPs — `sop_creation_guide`, `code_review_process`, `employee_onboarding_setup`, and `user_onboarding_process`. If none appear, check your MCP client's server logs for errors.
+You should see the bundled SOPs — `sop_creation_guide`, `code_review_process` and more. If none appear, check your MCP client's server logs for errors.
 
 ### 3. Run an SOP
 
@@ -117,6 +116,20 @@ Full parameter reference: [docs/mcp-reference.md](docs/mcp-reference.md)
 ## 💾 Storage
 
 On first run the server seeds the bundled SOPs into your storage directory — `~/.sop_mcp` by default, or set `SOP_STORAGE_DIR` to point it elsewhere. Bundled SOPs are only copied when the directory has no SOPs yet, so anything you author is never overwritten.
+
+To use a custom location, add a `SOP_STORAGE_DIR` env var to the server config:
+
+```json
+{
+  "mcpServers": {
+    "sop-mcp": {
+      "command": "uvx",
+      "args": ["--from", "git+https://github.com/aws-samples/sample-sop-mcp", "sop-mcp"],
+      "env": { "SOP_STORAGE_DIR": "/path/to/your/sops" }
+    }
+  }
+}
+```
 
 ## 📚 Documentation
 
