@@ -20,7 +20,7 @@ Use this skill when you need to:
 ## Prerequisites
 
 Before using this skill, ensure:
-- SOP-MCP server is installed and running (see [`sop-mcp-configuration`](../sop-mcp-configuration/SKILL.md))
+- SOP-MCP server is installed and running (see the [project README](../../README.md))
 - Your MCP client is configured to connect to the server
 - You have access to the SOP-MCP tools — verify with `list_resources`
 
