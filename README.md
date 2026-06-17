@@ -48,7 +48,7 @@ Restart your MCP client, then ask your agent to list the available SOPs:
 
 > **You:** "List available SOPs."
 
-You should see the four bundled SOPs — `sop_creation_guide`, `code_review_process`, `employee_onboarding_setup`, and `user_onboarding_process`. If none appear, check your MCP client's server logs for errors.
+You should see the bundled SOPs — `sop_creation_guide`, `code_review_process` and more. If none appear, check your MCP client's server logs for errors.
 
 ### 3. Run an SOP
 
