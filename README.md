@@ -6,10 +6,6 @@
 
 An MCP server that hands a procedure to your AI assistant one step at a time and asks it to produce concrete output before moving on. You talk to your agent in plain language — Kiro, Cursor, Claude Desktop, a Strands agent, or any MCP client — and it calls the SOP tools for you under the hood.
 
-<p align="center">
-  <img src="docs/banner.svg" alt="sop-mcp" width="100%">
-</p>
-
 ## ✨ Features
 
 - **🗣️ Plain-language driven** — Ask your agent to run or author an SOP; you never call tools by hand
@@ -22,6 +18,10 @@ An MCP server that hands a procedure to your AI assistant one step at a time and
 ## 🤔 What's an SOP?
 
 A Standard Operating Procedure is a markdown document that captures a repeatable, multi-step process — a code review, onboarding a new hire, cutting a release. LLMs are powerful but unpredictable across multi-step work: they skip steps, summarize instead of act, and lose their place. sop-mcp makes that behavior predictable — procedures arrive step by step, execution is gated, and progress is explicit.
+
+<p align="center">
+  <img src="docs/banner.svg" alt="sop-mcp" width="100%">
+</p>
 
 ## 🚀 Quick Start
 
@@ -74,6 +74,13 @@ A clean lint means a clean publish, so your SOP is immediately runnable: *"Run m
 
 ## 🔄 How It Works
 
+<p align="center">
+  <img src="docs/how-it-works.svg" alt="How sop-mcp works — a step-gated sequence" width="100%">
+</p>
+
+<details>
+<summary>Same flow as a Mermaid sequence diagram</summary>
+
 ```mermaid
 sequenceDiagram
     actor User
@@ -102,6 +109,8 @@ sequenceDiagram
     SOP-->>Agent: "SOP execution complete."
     Agent-->>User: done
 ```
+
+</details>
 
 Each step tells the agent to *execute* — not just read. It must produce the step's expected output before advancing, which is what makes the run auditable. As the human in the loop, you see each step's result and can intervene at any point.
 
