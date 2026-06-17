@@ -4,20 +4,20 @@
 
 > Turn your repeatable processes into Standard Operating Procedures (SOPs) that an AI agent executes one step at a time.
 
-An MCP server that hands a procedure to your AI assistant one step at a time and makes it produce concrete output before it can advance. You talk to your agent in plain language — Kiro, Cursor, Claude Desktop, a Strands agent, or any MCP client — and it calls the SOP tools for you under the hood.
+An MCP server that hands a procedure to your AI assistant one step at a time and asks it to produce concrete output before moving on. You talk to your agent in plain language — Kiro, Cursor, Claude Desktop, a Strands agent, or any MCP client — and it calls the SOP tools for you under the hood.
 
 ## ✨ Features
 
 - **🗣️ Plain-language driven** — Ask your agent to run or author an SOP; you never call tools by hand
 - **👣 Step-at-a-time execution** — Each step must be executed and produce output before the agent advances
-- **✅ Enforced & auditable** — RFC 2119 levels (MUST, SHOULD, MAY) with an execution layer that delivers and enforces them
+- **✅ Gated & auditable** — RFC 2119 levels (MUST, SHOULD, MAY) delivered one step at a time, each gated behind the previous, with progress kept explicit
 - **📦 Batteries included** — Four ready-to-run SOPs seeded on first launch
 - **✍️ Guided authoring** — A built-in guide interviews you, drafts, lints, and publishes new SOPs
 - **🔌 Works everywhere** — One-click install for Kiro, Cursor, and VS Code; manual config for any MCP client
 
 ## 🤔 What's an SOP?
 
-A Standard Operating Procedure is a markdown document that captures a repeatable, multi-step process — a code review, onboarding a new hire, cutting a release. LLMs are powerful but unpredictable across multi-step work: they skip steps, summarize instead of act, and lose their place. sop-mcp makes that behavior predictable — procedures arrive step by step, execution is enforced, and progress is explicit.
+A Standard Operating Procedure is a markdown document that captures a repeatable, multi-step process — a code review, onboarding a new hire, cutting a release. LLMs are powerful but unpredictable across multi-step work: they skip steps, summarize instead of act, and lose their place. sop-mcp makes that behavior predictable — procedures arrive step by step, execution is gated, and progress is explicit.
 
 ## 🚀 Quick Start
 
